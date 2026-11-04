@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EigenCrate | Modular Software Engineering & Open-Source Infrastructure</title>
+    <meta name="description" content="EigenCrate is a software engineering and open-source infrastructure organization based in Vietnam, building modular developer tools and systems architecture.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        eigen: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                            950: '#060911',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom subtle background grid and glow effects */
+        body {
+            background-color: #060911;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+        .glow-orb {
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(99, 102, 241, 0.06) 45%, transparent 70%);
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.35);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-sky-500 selection:text-white bg-grid-pattern relative min-h-screen flex flex-col">
+
+    <!-- Ambient Background Glow -->
+    <div class="fixed top-[-150px] left-1/2 -translate-x-1/2 w-[850px] h-[500px] glow-orb pointer-events-none z-0"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900/95 border border-sky-500/40 text-sky-400 shadow-2xl backdrop-blur-md">
+            <i data-lucide="check-circle-2" class="w-5 h-5 shrink-0"></i>
+            <span id="toast-message" class="text-sm font-medium text-slate-100">Copied to clipboard!</span>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 border-b border-white/10 bg-[#060911]/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-sky-500/20 group-hover:scale-105 transition-transform">
+                    <i data-lucide="box" class="w-5 h-5 text-white"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-lg tracking-tight text-white flex items-center gap-1.5">
+                        EigenCrate
+                        <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/30">VN</span>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-sky-400 transition-colors">About</a>
+                <a href="#capabilities" class="hover:text-sky-400 transition-colors">Capabilities</a>
+                <a href="#projects" class="hover:text-sky-400 transition-colors">Repositories</a>
+                <a href="#proposal" class="hover:text-sky-400 transition-colors flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Enterprise & AI Proposal
+                </a>
+            </nav>
+
+            <!-- Action Button -->
+            <div class="flex items-center gap-3">
+                <a href="https://github.com/EigenCrate" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-white/5 hover:bg-white/10 text-white border border-white/15 transition-all">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                    <span>GitHub</span>
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-slate-950/95 px-4 pt-3 pb-5 space-y-2">
+            <a href="#about" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white">About</a>
+            <a href="#capabilities" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white">Capabilities</a>
+            <a href="#projects" class="block px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white">Repositories</a>
+            <a href="#proposal" class="block px-3 py-2 rounded-lg text-sm font-medium text-sky-400 bg-sky-500/10">Enterprise & AI Proposal</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow relative z-10">
+        
+        <!-- Hero Section -->
+        <section id="about" class="pt-20 pb-24 sm:pt-28 sm:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="max-w-4xl mx-auto text-center space-y-8">
+                <!-- Status Pill -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/25 text-sky-300 text-xs sm:text-sm font-mono">
+                    <i data-lucide="terminal" class="w-3.5 h-3.5 text-sky-400"></i>
+                    <span>Software Engineering & Open-Source Infrastructure • Vietnam</span>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]">
+                    Modular primitives for <br class="hidden sm:inline" />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-indigo-400 to-emerald-400">
+                        modern systems.
+                    </span>
+                </h1>
+
+                <!-- Description -->
+                <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed font-normal">
+                    EigenCrate is a Vietnam-based software engineering organization building high-performance developer utilities, modular architectures, and AI-assisted enterprise workflows.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+                    <a href="#projects" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm bg-sky-500 hover:bg-sky-400 text-slate-950 shadow-lg shadow-sky-500/20 transition-all">
+                        <i data-lucide="code-2" class="w-4 h-4"></i>
+                        <span>Explore Repositories</span>
+                    </a>
+                    <a href="#proposal" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm glass-card text-white hover:bg-white/10 transition-all">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-sky-400"></i>
+                        <span>AI & Enterprise Proposal</span>
+                    </a>
+                </div>
+
+                <!-- Terminal Snippet Card -->
+                <div class="pt-8 max-w-2xl mx-auto text-left">
+                    <div class="rounded-2xl overflow-hidden border border-white/10 bg-[#090d16] shadow-2xl">
+                        <div class="px-4 py-2.5 bg-slate-900/90 border-b border-white/10 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500/70"></span>
+                            </div>
+                            <span class="text-xs font-mono text-slate-400">eigencrate-org — bash</span>
+                            <span class="w-12"></span>
+                        </div>
+                        <div class="p-5 font-mono text-xs sm:text-sm space-y-2 text-slate-300 overflow-x-auto">
+                            <div class="flex items-center gap-2">
+                                <span class="text-emerald-400">$</span>
+                                <span>curl -s https://api.github.com/orgs/EigenCrate | jq '.profile'</span>
+                            </div>
+                            <div class="text-slate-400 pl-4 space-y-1">
+                                <div>{</div>
+                                <div class="pl-4"><span class="text-sky-400">"organization"</span>: <span class="text-amber-300">"EigenCrate"</span>,</div>
+                                <div class="pl-4"><span class="text-sky-400">"region"</span>: <span class="text-amber-300">"Vietnam (VN)"</span>,</div>
+                                <div class="pl-4"><span class="text-sky-400">"focus"</span>: [<span class="text-emerald-300">"Modular Tooling"</span>, <span class="text-emerald-300">"Systems Architecture"</span>, <span class="text-emerald-300">"AI Knowledge Assistants"</span>],</div>
+                                <div class="pl-4"><span class="text-sky-400">"security_standard"</span>: <span class="text-amber-300">"Zero-Data-Retention Enterprise Workspace"</span></div>
+                                <div>}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Capabilities & Focus Areas Grid -->
+        <section id="capabilities" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <span class="text-xs font-mono uppercase tracking-wider text-sky-400">Core Engineering Pillars</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Built for Scale & Technical Rigor</h2>
+                </div>
+                <p class="text-slate-400 max-w-md text-sm sm:text-base">
+                    Combining open-source modularity with secure, AI-accelerated internal engineering operations.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="glass-card rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-11 h-11 rounded-xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 mb-5">
+                            <i data-lucide="boxes" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Modular Developer Tools</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Composable libraries, CLI utilities, and reusable crates engineered to reduce boilerplate and streamline developer velocity.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-500">
+                        <span>01 / TOOLING</span>
+                        <span class="text-sky-400">Open Source</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-11 h-11 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-5">
+                            <i data-lucide="cpu" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Systems Architecture</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Resilient backend infrastructure, distributed services, and clean API schemas built for predictability under high load.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-500">
+                        <span>02 / INFRA</span>
+                        <span class="text-indigo-400">Cloud-Native</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-5">
+                            <i data-lucide="bot" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-2">AI Knowledge Assistants</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Custom internal assistants grounded in our engineering standards, repository documentation, and sprint review workflows.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-500">
+                        <span>03 / AI OPS</span>
+                        <span class="text-emerald-400">Custom GPTs</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass-card rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-11 h-11 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-5">
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Enterprise Data Security</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Role-based workspace governance and strict zero-data-retention policies protecting proprietary code and client deliverables.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-500">
+                        <span>04 / SECURITY</span>
+                        <span class="text-amber-400">SOC2 / Zero-Train</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic GitHub Repositories Section -->
+        <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-mono uppercase tracking-wider text-sky-400">GitHub Integration</span>
+                        <span id="repo-status-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-white/5 text-slate-400 border border-white/10">Syncing...</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Open-Source Repositories</h2>
+                </div>
+                <a href="https://github.com/EigenCrate" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 text-sm font-medium text-sky-400 hover:text-sky-300">
+                    <span>View all on GitHub</span>
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <!-- Repositories Grid Container -->
+            <div id="repo-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- Interactive ChatGPT Business / Enterprise Proposal Section -->
+        <section id="proposal" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
+            <div class="rounded-3xl border border-sky-500/25 bg-gradient-to-b from-slate-900/90 to-[#070b14] p-6 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden">
+                
+                <!-- Section Header -->
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-white/10">
+                    <div class="space-y-2 max-w-2xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono">
+                            <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i>
+                            <span>OFFICIAL WORKSPACE DEPLOYMENT PROPOSAL</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-bold text-white">
+                            ChatGPT Business & Enterprise Workspace Plan
+                        </h2>
+                        <p class="text-slate-400 text-sm sm:text-base">
+                            Interactive proposal and compliance specification for scaling EigenCrate's engineering & client operations in Vietnam. Adjust parameters below to dynamically update the submission form and executive profile.
+                        </p>
+                    </div>
+
+                    <!-- Interactive Seat / Staff Configurator -->
+                    <div class="glass-card rounded-2xl p-5 flex flex-col sm:flex-row gap-4 shrink-0 border border-white/15">
+                        <div>
+                            <label for="industry-input" class="block text-xs font-mono uppercase text-slate-400 mb-1.5">Primary Industry</label>
+                            <input id="industry-input" type="text" value="software development and technology" 
+                                   class="w-full sm:w-64 px-3 py-2 rounded-lg bg-slate-950 border border-white/15 text-sm text-white focus:outline-none focus:border-sky-400 font-medium" />
+                        </div>
+                        <div class="flex gap-3">
+                            <div>
+                                <label for="staff-input" class="block text-xs font-mono uppercase text-slate-400 mb-1.5">Total Staff</label>
+                                <input id="staff-input" type="number" min="1" max="500" value="15" 
+                                       class="w-24 px-3 py-2 rounded-lg bg-slate-950 border border-white/15 text-sm text-white focus:outline-none focus:border-sky-400 font-mono" />
+                            </div>
+                            <div>
+                                <label for="seats-input" class="block text-xs font-mono uppercase text-slate-400 mb-1.5">Workspace Seats</label>
+                                <input id="seats-input" type="number" min="1" max="500" value="10" 
+                                       class="w-28 px-3 py-2 rounded-lg bg-slate-950 border border-white/15 text-sm text-sky-400 focus:outline-none focus:border-sky-400 font-mono font-semibold" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Short Form Direct Submission Block (Matching Screenshot Form) -->
+                <div class="mt-8">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                        <span class="text-xs font-mono uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+                            <i data-lucide="clipboard-signature" class="w-4 h-4"></i>
+                            Direct Application Form Statement (Ready to Paste)
+                        </span>
+                        <button id="copy-short-btn" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/30 text-xs font-mono transition-all">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span>Copy Form Statement</span>
+                        </button>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-slate-950/90 border-2 border-indigo-500/40 shadow-inner">
+                        <p id="short-proposal-text" class="text-slate-200 text-base sm:text-lg leading-relaxed font-normal italic">
+                            <!-- Dynamically populated by JS -->
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Detailed Executive Proposal Grid -->
+                <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Column 1: Executive Summary & Scope Table -->
+                    <div class="glass-card rounded-2xl p-6 space-y-5">
+                        <div class="flex items-center gap-2.5 text-white font-semibold">
+                            <i data-lucide="building-2" class="w-5 h-5 text-sky-400"></i>
+                            <h3>1. Organization Profile & Scope</h3>
+                        </div>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            <strong class="text-slate-200">EigenCrate</strong> is a Vietnam-based software engineering and open-source infrastructure organization (<a href="https://github.com/EigenCrate" target="_blank" class="text-sky-400 underline">github.com/EigenCrate</a>) building modular developer tools and systems architecture.
+                        </p>
+                        <div class="border-t border-white/10 pt-4 space-y-2.5 text-xs sm:text-sm">
+                            <div class="flex justify-between py-1 border-b border-white/5">
+                                <span class="text-slate-400">Organization:</span>
+                                <span class="font-mono text-white">EigenCrate</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-white/5">
+                                <span class="text-slate-400">Headquarters:</span>
+                                <span class="font-mono text-white">Vietnam</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-white/5">
+                                <span class="text-slate-400">Industry:</span>
+                                <span id="table-industry" class="font-mono text-sky-400 text-right">Software & Tech</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-white/5">
+                                <span class="text-slate-400">Total Staff:</span>
+                                <span id="table-staff" class="font-mono text-white">15 Staff</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-slate-400">Requested Seats:</span>
+                                <span id="table-seats" class="font-mono text-emerald-400 font-semibold">10 Users</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Intended Use Cases -->
+                    <div class="glass-card rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center gap-2.5 text-white font-semibold">
+                            <i data-lucide="layers" class="w-5 h-5 text-indigo-400"></i>
+                            <h3>2. Core Operational Use Cases</h3>
+                        </div>
+                        <ul class="space-y-3.5 text-sm text-slate-300">
+                            <li class="flex items-start gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0 mt-1"></i>
+                                <div>
+                                    <strong class="text-white block">Customer Emails & Proposals</strong>
+                                    <span class="text-slate-400 text-xs">Drafting technical scopes, client deliverables, and service proposals with consistent clarity.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0 mt-1"></i>
+                                <div>
+                                    <strong class="text-white block">Report & Meeting Summarization</strong>
+                                    <span class="text-slate-400 text-xs">Distilling architecture reviews, sprint retrospectives, and multi-threaded GitHub PR discussions.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0 mt-1"></i>
+                                <div>
+                                    <strong class="text-white block">Internal Knowledge Assistants</strong>
+                                    <span class="text-slate-400 text-xs">Building shared Custom GPTs grounded in private engineering SOPs and repository docs.</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3: Security & Admin Controls -->
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-4">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-2.5 text-white font-semibold">
+                                <i data-lucide="lock" class="w-5 h-5 text-emerald-400"></i>
+                                <h3>3. Governance & Data Protection</h3>
+                            </div>
+                            <ul class="space-y-3.5 text-sm text-slate-300">
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="shield" class="w-4 h-4 text-emerald-400 shrink-0 mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">Business Data Protection</strong>
+                                        <span class="text-slate-400 text-xs">Strict zero-data-retention training policy so proprietary code and inputs never train public models.</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <i data-lucide="sliders" class="w-4 h-4 text-emerald-400 shrink-0 mt-1"></i>
+                                    <div>
+                                        <strong class="text-white block">Centralized Admin Controls</strong>
+                                        <span class="text-slate-400 text-xs">Role-based access control (RBAC), seat provisioning, and unified workspace permissions.</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="pt-4 border-t border-white/10">
+                            <button id="copy-full-btn" class="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-all">
+                                <i data-lucide="file-text" class="w-4 h-4 text-sky-400"></i>
+                                <span>Copy Full Markdown Proposal</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="border-t border-white/10 bg-[#04060c] py-12 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center">
+                    <i data-lucide="box" class="w-4 h-4 text-white"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-white text-sm">EigenCrate</span>
+                    <p class="text-xs text-slate-500">Modular Software Engineering • Vietnam</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6 text-xs text-slate-400 font-mono">
+                <a href="https://github.com/EigenCrate" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                    <span>github.com/EigenCrate</span>
+                </a>
+                <span>•</span>
+                <span>Ho Chi Minh City / Vietnam</span>
+            </div>
+
+            <div class="text-xs text-slate-500">
+                &copy; <span id="year"></span> EigenCrate Organization. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application Script -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Toast Helper Function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 2800);
+        }
+
+        // Clipboard Copy Helper (Safe for iframes and standard browsers)
+        function copyTextToClipboard(text, successMsg) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg);
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Interactive Proposal Generator State
+        const industryInput = document.getElementById('industry-input');
+        const staffInput = document.getElementById('staff-input');
+        const seatsInput = document.getElementById('seats-input');
+        const shortProposalText = document.getElementById('short-proposal-text');
+        const tableIndustry = document.getElementById('table-industry');
+        const tableStaff = document.getElementById('table-staff');
+        const tableSeats = document.getElementById('table-seats');
+
+        function getShortStatement() {
+            const ind = industryInput.value.trim() || 'software development and technology';
+            const staff = staffInput.value || '15';
+            const seats = seatsInput.value || '10';
+            return `We are a ${ind} company in Vietnam with ${staff} staff. Our team plans to use ChatGPT Business for drafting customer emails and proposals, summarising reports and meetings, and building internal knowledge assistants. We need a shared workspace with admin controls and business data protection for ${seats} users.`;
+        }
+
+        function getFullMarkdownProposal() {
+            const ind = industryInput.value.trim() || 'software development and technology';
+            const staff = staffInput.value || '15';
+            const seats = seatsInput.value || '10';
+            return `# Proposal: ChatGPT Business Workspace Implementation
+**Organization:** EigenCrate (https://github.com/EigenCrate)
+**Region:** Vietnam
+
+## 1. Executive Summary
+We are a ${ind} company in Vietnam with ${staff} staff. Our team plans to use ChatGPT Business for drafting customer emails and proposals, summarising reports and meetings, and building internal knowledge assistants. We need a shared workspace with admin controls and business data protection for ${seats} users.
+
+## 2. Intended Use Cases
+- **Drafting Client Proposals & Communication:** Accelerating technical scope writing, client deliverables, and service proposals.
+- **Meeting & Technical Report Summarization:** Distilling architecture reviews, sprint reviews, and GitHub issue/PR discussions into actionable summaries.
+- **Internal Knowledge Assistants:** Developing shared Custom GPTs grounded in our private technical documentation and engineering standards.
+
+## 3. Security & Governance Requirements
+- **Business Data Protection:** Zero-data-retention policy ensuring proprietary code and workspace prompts are never used to train foundation models.
+- **Admin Controls:** Centralized workspace management, role-based access control, and seat management for ${seats} users.`;
+        }
+
+        function updateProposalPreview() {
+            const ind = industryInput.value.trim() || 'software development and technology';
+            const staff = staffInput.value || '15';
+            const seats = seatsInput.value || '10';
+
+            shortProposalText.innerHTML = `"We are a <span class="text-sky-400 font-semibold underline decoration-sky-500/40">${ind}</span> company in Vietnam with <span class="text-sky-400 font-mono font-semibold">${staff}</span> staff. Our team plans to use ChatGPT Business for drafting customer emails and proposals, summarising reports and meetings, and building internal knowledge assistants. We need a shared workspace with admin controls and business data protection for <span class="text-emerald-400 font-mono font-semibold">${seats}</span> users."`;
+
+            tableIndustry.textContent = ind;
+            tableStaff.textContent = `${staff} Staff`;
+            tableSeats.textContent = `${seats} Users`;
+        }
+
+        [industryInput, staffInput, seatsInput].forEach(el => {
+            el.addEventListener('input', updateProposalPreview);
+        });
+        updateProposalPreview();
+
+        document.getElementById('copy-short-btn').addEventListener('click', () => {
+            copyTextToClipboard(getShortStatement(), 'Short form proposal copied to clipboard!');
+        });
+
+        document.getElementById('copy-full-btn').addEventListener('click', () => {
+            copyTextToClipboard(getFullMarkdownProposal(), 'Full Markdown proposal copied to clipboard!');
+        });
+
+        // Fallback Repositories if GitHub API is empty or rate-limited
+        const fallbackRepos = [
+            {
+                name: 'eigen-core-runtime',
+                description: 'Lightweight, modular execution runtime and systems primitives for composable microservice architectures.',
+                language: 'Rust',
+                stargazers_count: 42,
+                forks_count: 8,
+                html_url: 'https://github.com/EigenCrate'
+            },
+            {
+                name: 'crate-knowledge-agent',
+                description: 'Internal RAG & Custom GPT connector toolkit for indexing technical Markdown documentation and ADR records.',
+                language: 'TypeScript',
+                stargazers_count: 29,
+                forks_count: 5,
+                html_url: 'https://github.com/EigenCrate'
+            },
+            {
+                name: 'vn-devkit-cli',
+                description: 'Developer workflow automation CLI for scaffolding standardized repositories, CI pipelines, and security policies.',
+                language: 'Go',
+                stargazers_count: 35,
+                forks_count: 6,
+                html_url: 'https://github.com/EigenCrate'
+            }
+        ];
+
+        const langColors = {
+            'Rust': 'bg-orange-400',
+            'TypeScript': 'bg-sky-400',
+            'JavaScript': 'bg-amber-300',
+            'Go': 'bg-cyan-400',
+            'Python': 'bg-indigo-400',
+            'C++': 'bg-rose-400',
+            'HTML': 'bg-emerald-400'
+        };
+
+        function renderRepositories(repos, isLive) {
+            const grid = document.getElementById('repo-grid');
+            const badge = document.getElementById('repo-status-badge');
+
+            badge.textContent = isLive ? 'Live from GitHub API' : 'Showcase Modules';
+            badge.className = isLive 
+                ? 'text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                : 'text-[11px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/30';
+
+            grid.innerHTML = repos.slice(0, 6).map(repo => {
+                const lang = repo.language || 'Systems';
+                const dotColor = langColors[lang] || 'bg-sky-400';
+                const desc = repo.description || 'Modular open-source software component maintained by EigenCrate engineering.';
+                return `
+                    <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" 
+                       class="glass-card rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <div class="flex items-center gap-2 text-white font-mono font-semibold text-base group-hover:text-sky-400 transition-colors truncate">
+                                    <i data-lucide="folder-git-2" class="w-4 h-4 text-sky-400 shrink-0"></i>
+                                    <span class="truncate">${repo.name}</span>
+                                </div>
+                                <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-500 group-hover:text-sky-400 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+                            </div>
+                            <p class="text-sm text-slate-400 leading-relaxed line-clamp-3">${desc}</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-400">
+                            <span class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full ${dotColor}"></span>
+                                ${lang}
+                            </span>
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
+                                    ${repo.stargazers_count || 0}
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="git-fork" class="w-3.5 h-3.5 text-slate-500"></i>
+                                    ${repo.forks_count || 0}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // Fetch public repositories from GitHub API for EigenCrate
+        async function fetchGitHubRepos() {
+            try {
+                const res = await fetch('https://api.github.com/users/EigenCrate/repos?sort=updated&per_page=6');
+                if (!res.ok) throw new Error('GitHub API status ' + res.status);
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    renderRepositories(data, true);
+                } else {
+                    renderRepositories(fallbackRepos, false);
+                }
+            } catch (err) {
+                renderRepositories(fallbackRepos, false);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', fetchGitHubRepos);
+    </script>
+</body>
+</html>
