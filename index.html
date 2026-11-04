@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+333333333333333<!DOCTYPE html>
 <html lang="en" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
@@ -306,169 +306,6 @@
             </div>
         </section>
 
-        <!-- Interactive ChatGPT Business / Enterprise Proposal Section -->
-        <section id="proposal" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
-            <div class="rounded-3xl border border-sky-500/25 bg-gradient-to-b from-slate-900/90 to-[#070b14] p-6 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden">
-                
-                <!-- Section Header -->
-                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-white/10">
-                    <div class="space-y-2 max-w-2xl">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono">
-                            <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i>
-                            <span>OFFICIAL WORKSPACE DEPLOYMENT PROPOSAL</span>
-                        </div>
-                        <h2 class="text-2xl sm:text-4xl font-bold text-white">
-                            ChatGPT Business & Enterprise Workspace Plan
-                        </h2>
-                        <p class="text-slate-400 text-sm sm:text-base">
-                            Interactive proposal and compliance specification for scaling EigenCrate's engineering & client operations in Vietnam. Adjust parameters below to dynamically update the submission form and executive profile.
-                        </p>
-                    </div>
-
-                    <!-- Interactive Seat / Staff Configurator -->
-                    <div class="glass-card rounded-2xl p-5 flex flex-col sm:flex-row gap-4 shrink-0 border border-white/15">
-                        <div>
-                            <label for="industry-input" class="block text-xs font-mono uppercase text-slate-400 mb-1.5">Primary Industry</label>
-                            <input id="industry-input" type="text" value="software development and technology" 
-                                   class="w-full sm:w-64 px-3 py-2 rounded-lg bg-slate-950 border border-white/15 text-sm text-white focus:outline-none focus:border-sky-400 font-medium" />
-                        </div>
-                        <div class="flex gap-3">
-                            <div>
-                                <label for="staff-input" class="block text-xs font-mono uppercase text-slate-400 mb-1.5">Total Staff</label>
-                                <input id="staff-input" type="number" min="1" max="500" value="15" 
-                                       class="w-24 px-3 py-2 rounded-lg bg-slate-950 border border-white/15 text-sm text-white focus:outline-none focus:border-sky-400 font-mono" />
-                            </div>
-                            <div>
-                                <label for="seats-input" class="block text-xs font-mono uppercase text-slate-400 mb-1.5">Workspace Seats</label>
-                                <input id="seats-input" type="number" min="1" max="500" value="10" 
-                                       class="w-28 px-3 py-2 rounded-lg bg-slate-950 border border-white/15 text-sm text-sky-400 focus:outline-none focus:border-sky-400 font-mono font-semibold" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Short Form Direct Submission Block (Matching Screenshot Form) -->
-                <div class="mt-8">
-                    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-                        <span class="text-xs font-mono uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
-                            <i data-lucide="clipboard-signature" class="w-4 h-4"></i>
-                            Direct Application Form Statement (Ready to Paste)
-                        </span>
-                        <button id="copy-short-btn" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/30 text-xs font-mono transition-all">
-                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                            <span>Copy Form Statement</span>
-                        </button>
-                    </div>
-                    <div class="p-5 rounded-2xl bg-slate-950/90 border-2 border-indigo-500/40 shadow-inner">
-                        <p id="short-proposal-text" class="text-slate-200 text-base sm:text-lg leading-relaxed font-normal italic">
-                            <!-- Dynamically populated by JS -->
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Detailed Executive Proposal Grid -->
-                <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    
-                    <!-- Column 1: Executive Summary & Scope Table -->
-                    <div class="glass-card rounded-2xl p-6 space-y-5">
-                        <div class="flex items-center gap-2.5 text-white font-semibold">
-                            <i data-lucide="building-2" class="w-5 h-5 text-sky-400"></i>
-                            <h3>1. Organization Profile & Scope</h3>
-                        </div>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            <strong class="text-slate-200">EigenCrate</strong> is a Vietnam-based software engineering and open-source infrastructure organization (<a href="https://github.com/EigenCrate" target="_blank" class="text-sky-400 underline">github.com/EigenCrate</a>) building modular developer tools and systems architecture.
-                        </p>
-                        <div class="border-t border-white/10 pt-4 space-y-2.5 text-xs sm:text-sm">
-                            <div class="flex justify-between py-1 border-b border-white/5">
-                                <span class="text-slate-400">Organization:</span>
-                                <span class="font-mono text-white">EigenCrate</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-white/5">
-                                <span class="text-slate-400">Headquarters:</span>
-                                <span class="font-mono text-white">Vietnam</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-white/5">
-                                <span class="text-slate-400">Industry:</span>
-                                <span id="table-industry" class="font-mono text-sky-400 text-right">Software & Tech</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-white/5">
-                                <span class="text-slate-400">Total Staff:</span>
-                                <span id="table-staff" class="font-mono text-white">15 Staff</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Requested Seats:</span>
-                                <span id="table-seats" class="font-mono text-emerald-400 font-semibold">10 Users</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Column 2: Intended Use Cases -->
-                    <div class="glass-card rounded-2xl p-6 space-y-4">
-                        <div class="flex items-center gap-2.5 text-white font-semibold">
-                            <i data-lucide="layers" class="w-5 h-5 text-indigo-400"></i>
-                            <h3>2. Core Operational Use Cases</h3>
-                        </div>
-                        <ul class="space-y-3.5 text-sm text-slate-300">
-                            <li class="flex items-start gap-2.5">
-                                <i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0 mt-1"></i>
-                                <div>
-                                    <strong class="text-white block">Customer Emails & Proposals</strong>
-                                    <span class="text-slate-400 text-xs">Drafting technical scopes, client deliverables, and service proposals with consistent clarity.</span>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0 mt-1"></i>
-                                <div>
-                                    <strong class="text-white block">Report & Meeting Summarization</strong>
-                                    <span class="text-slate-400 text-xs">Distilling architecture reviews, sprint retrospectives, and multi-threaded GitHub PR discussions.</span>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0 mt-1"></i>
-                                <div>
-                                    <strong class="text-white block">Internal Knowledge Assistants</strong>
-                                    <span class="text-slate-400 text-xs">Building shared Custom GPTs grounded in private engineering SOPs and repository docs.</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Column 3: Security & Admin Controls -->
-                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-4">
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-2.5 text-white font-semibold">
-                                <i data-lucide="lock" class="w-5 h-5 text-emerald-400"></i>
-                                <h3>3. Governance & Data Protection</h3>
-                            </div>
-                            <ul class="space-y-3.5 text-sm text-slate-300">
-                                <li class="flex items-start gap-2.5">
-                                    <i data-lucide="shield" class="w-4 h-4 text-emerald-400 shrink-0 mt-1"></i>
-                                    <div>
-                                        <strong class="text-white block">Business Data Protection</strong>
-                                        <span class="text-slate-400 text-xs">Strict zero-data-retention training policy so proprietary code and inputs never train public models.</span>
-                                    </div>
-                                </li>
-                                <li class="flex items-start gap-2.5">
-                                    <i data-lucide="sliders" class="w-4 h-4 text-emerald-400 shrink-0 mt-1"></i>
-                                    <div>
-                                        <strong class="text-white block">Centralized Admin Controls</strong>
-                                        <span class="text-slate-400 text-xs">Role-based access control (RBAC), seat provisioning, and unified workspace permissions.</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="pt-4 border-t border-white/10">
-                            <button id="copy-full-btn" class="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-all">
-                                <i data-lucide="file-text" class="w-4 h-4 text-sky-400"></i>
-                                <span>Copy Full Markdown Proposal</span>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -489,8 +326,6 @@
                     <i data-lucide="github" class="w-4 h-4"></i>
                     <span>github.com/EigenCrate</span>
                 </a>
-                <span>•</span>
-                <span>Ho Chi Minh City / Vietnam</span>
             </div>
 
             <div class="text-xs text-slate-500">
